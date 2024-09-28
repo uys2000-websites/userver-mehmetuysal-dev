@@ -5,13 +5,15 @@
         <label class="input input-bordered flex items-center gap-2 w-full">
           Name
           <input type="text" class="grow" v-model="name" />
-        </label><label class="input input-bordered flex items-center gap-2 w-full">
+        </label>
+        <label class="input input-bordered flex items-center gap-2 w-full">
           Expression
           <input type="text" class="grow" v-model="cronExpression" />
         </label>
         <button type="submit" class="btn w-full flex-shrink">Create</button>
       </div>
-      <textarea class="textarea textarea-bordered w-full" placeholder="Bash Script" v-model="command"></textarea>
+      <textarea class="textarea textarea-bordered w-full" placeholder="Bash Script" v-model="command"
+        style="white-space: pre;"></textarea>
     </form>
     <div class="h-full overflow-auto flex flex-col gap-2">
       <div class="top-0 sticky bg-neutral p-2 rounded-box flex flex-col gap-2">
@@ -39,7 +41,11 @@
             <button type="button" class="btn flex-shrink w-1/2" @click="() => remove(item.id)">Delete</button>
           </div>
           <div class="flex gap-2">
-            <div class="textarea textarea-bordered w-2/3">{{ item.data.command }}</div>
+            <div class="textarea textarea-bordered w-2/3">
+              <code>
+              <pre>{{ item.data.command }}</pre>
+            </code>
+            </div>
             <label class="input input-bordered flex items-center gap-2 w-1/3">
               Expression <span class="font-bold">{{ item.data.cronExpression }}</span>
             </label>

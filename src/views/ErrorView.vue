@@ -16,19 +16,19 @@
         </div>
         <div class="bg-base-100 text-base-content border p-1 rounded-btn">
           <span class="font-bold">Error:</span>
-          <div>
+          <div class="w-full overflow-y-auto">
             <pre><code>{{ item.data.error }}</code></pre>
           </div>
         </div>
         <div class="bg-base-100 text-base-content border p-1 rounded-btn">
           <span class="font-bold">Stderr:</span>
-          <div>
+          <div class="w-full overflow-y-auto">
             <pre><code>{{ item.data.stderr }}</code></pre>
           </div>
         </div>
         <div class="bg-base-100 text-base-content border p-1 rounded-btn">
           <span class="font-bold">Stdout:</span>
-          <div>
+          <div class="w-full overflow-y-auto">
             <pre><code>{{ item.data.stdout }}</code></pre>
           </div>
         </div>

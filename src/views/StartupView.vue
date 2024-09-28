@@ -8,7 +8,8 @@
         </label>
         <button type="submit" class="btn w-full flex-shrink">Create</button>
       </div>
-      <textarea class="textarea textarea-bordered w-full" placeholder="Bash Script" v-model="command"></textarea>
+      <textarea class="textarea textarea-bordered w-full" placeholder="Bash Script" v-model="command"
+        style="white-space: pre;"></textarea>
     </form>
     <div class="h-full overflow-auto flex flex-col gap-2">
       <div class="top-0 sticky bg-neutral p-2 rounded-box flex flex-col gap-2">
@@ -33,7 +34,11 @@
             </label>
             <button type="button" class="btn w-full flex-shrink" @click="() => remove(item.id)">Delete</button>
           </div>
-          <div class="textarea textarea-bordered w-full">{{ item.data.command }}</div>
+          <div class="textarea textarea-bordered w-full">
+            <code>
+              <pre>{{ item.data.command }}</pre>
+            </code>
+          </div>
         </form>
       </template>
     </div>
