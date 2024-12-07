@@ -8,7 +8,7 @@
     </div>
     <div class="flex flex-col gap-2 bg-neutral rounded-box p-2">
       <template v-for="item in data.filter(item => item.data.id.includes(filter))">
-        <Collapse class="bg-base-100">
+        <Collapse class="bg-base-100 w-full overflow-hidden">
           <template #title>
             <div class="flex gap-2 justify-between">
               <span>{{ item.data.command }}</span>
@@ -16,14 +16,14 @@
             </div>
           </template>
           <template #content>
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-2 w-full overflow-auto">
               <div class="flex flex-nowrap gap-2">
                 <button class="btn w-full flex-shrink" @click="() => filter = item.data.id">Filter</button>
                 <button class="btn w-full flex-shrink" @click="() => remove(item.id)">Remove</button>
               </div>
               <div class="bg-base-100 text-base-content rounded-btn p-2">
                 <span class="font-bold">Stderr:</span>
-                <div class="w-full overflow-y-auto">
+                <div class="w-full max-w-full overflow-y-auto">
                   <pre><code>{{ item.data.stderr }}</code></pre>
                 </div>
               </div>

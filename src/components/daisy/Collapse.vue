@@ -4,7 +4,7 @@
     <div class="collapse-title">
       <slot name="title" />
     </div>
-    <div class="collapse-content">
+    <div class="collapse-content overflow-hidden">
       <slot name="content" />
     </div>
   </div>
