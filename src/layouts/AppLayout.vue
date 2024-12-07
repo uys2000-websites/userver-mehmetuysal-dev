@@ -1,6 +1,6 @@
 <template>
   <div class="drawer lg:drawer-open bg-base-300 text-base-content overflow-hidden">
-    <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
+    <input id="drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col">
       <AppHeader />
       <div class="h-app-page overflow-hidden relative">
