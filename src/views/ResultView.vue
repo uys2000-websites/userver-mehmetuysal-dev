@@ -75,8 +75,9 @@ export default {
     this.data = querySnapshot.docs.map(snapshot => ({ ...snapshot.data(), id: snapshot.id } as UDocument<UTaskResult>))
 
     this.listener = listenResult(querySnapshot => {
-      querySnapshot.docs.forEach((snapshot) => {
-        this.data.unshift({ ...snapshot.data(), id: snapshot.id } as UDocument<UTaskResult>)
+      querySnapshot.docChanges().forEach((change) => {
+        if (change.type == "added")
+          this.data.unshift({ ...change.doc.data(), id: change.doc.id } as UDocument<UTaskResult>)
       })
     })
   },
