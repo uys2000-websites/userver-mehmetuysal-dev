@@ -63,13 +63,13 @@ export default {
         utimestamp: Date.now()
       } as Record<string, any>
 
-      if (task.name) document["data.name"] = task.name
-      if (task.server) document["data.server"] = task.server
-      if (task.isActive) document["data.isActive"] = task.isActive
-      if (task.isStartup) document["data.isStartup"] = task.isStartup
-      if (task.isCron) document["data.isCron"] = task.isCron
-      if (task.cronExpression) document["data.cronExpression"] = task.cronExpression
-      if (task.commands) document["data.commands"] = task.commands
+      if (task.name != undefined) document["data.name"] = task.name
+      if (task.server != undefined) document["data.server"] = task.server
+      if (task.isActive != undefined) document["data.isActive"] = task.isActive
+      if (task.isStartup != undefined) document["data.isStartup"] = task.isStartup
+      if (task.isCron != undefined) document["data.isCron"] = task.isCron
+      if (task.cronExpression != undefined) document["data.cronExpression"] = task.cronExpression
+      if (task.commands != undefined) document["data.commands"] = task.commands
 
       await updateTask(id, document)
     },
