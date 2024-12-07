@@ -1,30 +1,17 @@
-export enum UTaskType {
-  INSTANT,
-  START,
-  CRON,
-}
 export interface UTask {
-  type: UTaskType;
   name: string;
-  command: string;
-  cronStatus: boolean;
+  isActive: boolean;
+  isStartup: boolean;
+  isCron: boolean;
+  server: string;
   cronExpression: string;
+  commands: string[];
 }
 
 export interface UTaskResult {
-  id: string; // task id
-  type: UTaskType;
+  id: string;
+  command: string;
   stdout: string;
   stderr: string;
-}
-
-export interface UError {
-  id?: string;
   error: any;
-  stdout: string;
-  stderr: string;
-}
-
-export interface UAction {
-  name: "reload" | "stop";
 }

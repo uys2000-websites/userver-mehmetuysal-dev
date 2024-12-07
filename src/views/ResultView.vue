@@ -6,52 +6,62 @@
         <input type="text" class="grow" v-model="filter" />
       </label>
     </div>
-    <template v-for="item in data.filter(item => item.data.id.includes(filter))">
-      <div class="bg-neutral p-4 rounded-box flex flex-col gap-2">
-        <div class="flex gap-2">
-          <div class="input input-bordered flex items-center w-full">
-            Id: <span class="font-bold ml-1">{{ item.data.id }}</span>
-          </div>
-          <div class="input input-bordered flex items-center w-full">
-            Type: <span class="font-bold ml-1">{{ types[item.data.type] }}</span>
-          </div>
-          <button class="btn w-full flex-shrink" @click="() => remove(item.id)">Remove</button>
-        </div>
-        <div class="bg-base-100 text-base-content border p-1 rounded-btn">
-          <span class="font-bold">Stderr:</span>
-          <div class="w-full overflow-y-auto">
-            <pre><code>{{ item.data.stderr }}</code></pre>
-          </div>
-        </div>
-        <div class="bg-base-100 text-base-content border p-1 rounded-btn">
-          <span class="font-bold">Stdout:</span>
-          <div class="w-full overflow-y-auto">
-            <pre><code>{{ item.data.stdout }}</code></pre>
-          </div>
-        </div>
-      </div>
-    </template>
+    <div class="flex flex-col gap-2 bg-neutral rounded-box p-2">
+      <template v-for="item in data.filter(item => item.data.id.includes(filter))">
+        <Collapse class="bg-base-100">
+          <template #title>
+            <div class="flex gap-2 justify-between">
+              <span>{{ item.data.command }}</span>
+              <span>{{ item.data.id }}</span>
+            </div>
+          </template>
+          <template #content>
+            <div class="flex flex-col gap-2">
+              <div class="flex flex-nowrap gap-2">
+                <button class="btn w-full flex-shrink" @click="() => filter = item.data.id">Filter</button>
+                <button class="btn w-full flex-shrink" @click="() => remove(item.id)">Remove</button>
+              </div>
+              <div class="bg-base-100 text-base-content rounded-btn p-2">
+                <span class="font-bold">Stderr:</span>
+                <div class="w-full overflow-y-auto">
+                  <pre><code>{{ item.data.stderr }}</code></pre>
+                </div>
+              </div>
+              <div class="bg-base-100 text-base-content rounded-btn p-2">
+                <span class="font-bold">Stdout:</span>
+                <div class="w-full overflow-y-auto">
+                  <pre><code>{{ item.data.stdout }}</code></pre>
+                </div>
+              </div>
+              <div class="bg-base-100 text-base-content rounded-btn p-2">
+                <span class="font-bold">Error:</span>
+                <div class="w-full overflow-y-auto">
+                  <pre><code>{{ item.data.error }}</code></pre>
+                </div>
+              </div>
+            </div>
+          </template>
+        </Collapse>
+      </template>
+    </div>
   </div>
 </template>
 
 
 <script lang="ts">
+import Collapse from '@/components/daisy/Collapse.vue';
 import { getResults, listenResult, removeResult } from '@/services/firebase/db';
 import type { UDocument } from '@/types/firebase';
 import { type UTaskResult } from '@/types/task';
 import type { Unsubscribe } from 'firebase/firestore';
 
 export default {
+  components: { Collapse },
   data() {
     return {
       listener: null as null | Unsubscribe,
       filter: "",
       data: [] as UDocument<UTaskResult>[],
-      types: {
-        0: "INSTANT",
-        1: "START",
-        2: "CRON"
-      }
     }
   },
   methods: {

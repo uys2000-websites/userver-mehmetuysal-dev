@@ -16,29 +16,16 @@ import {
   type DocumentData,
 } from "firebase/firestore";
 import { app } from "./app";
-import { ACTION, ERROR, TASK, TASKRESULT } from "@/constant";
-import type { UAction, UTask, UTaskType } from "@/types/task";
+import { ERROR, TASK, TASKRESULT } from "@/constant";
+import type { UTask } from "@/types/task";
 import type { UDocument } from "@/types/firebase";
 
 export const db = getFirestore(app);
 
-export const getTask = (id: string) => {
-  const docRef = doc(db, TASK, id);
-  return getDoc(docRef);
-};
-
-export const updateTask = (id: string, active = true) => {
-  const docRef = doc(db, TASK, id);
-  return updateDoc(docRef, { utimestamp: Date.now(), active: active });
-};
-
-export const updateCronTask = (id: string, cronStatus: boolean) => {
-  const docRef = doc(db, TASK, id);
-  return updateDoc(docRef, {
-    utimestamp: Date.now(),
-    active: true,
-    "data.cronStatus": cronStatus,
-  });
+export const getTasks = () => {
+  const colRef = collection(db, TASK);
+  const queryRef = query(colRef, orderBy("timestamp", "desc"));
+  return getDocs(queryRef);
 };
 
 export const addTask = (task: UDocument<UTask>) => {
@@ -46,14 +33,9 @@ export const addTask = (task: UDocument<UTask>) => {
   return addDoc(colRef, task);
 };
 
-export const getTasks = (type: UTaskType) => {
-  const colRef = collection(db, TASK);
-  const queryRef = query(
-    colRef,
-    where("data.type", "==", type),
-    orderBy("timestamp", "desc")
-  );
-  return getDocs(queryRef);
+export const updateTask = (id: string, task: object) => {
+  const colRef = doc(db, TASK, id);
+  return updateDoc(colRef, task);
 };
 
 export const removeTask = (id: string) => {
@@ -67,6 +49,17 @@ export const getResults = () => {
   return getDocs(queryRef);
 };
 
+export const listenTasks = (
+  callback: (snapshot: QuerySnapshot<DocumentData, DocumentData>) => void
+) => {
+  const colRef = collection(db, TASK);
+  const queryRef = query(
+    colRef,
+    orderBy("timestamp", "asc"),
+    startAfter(Date.now())
+  );
+  return onSnapshot(queryRef, callback);
+};
 export const listenResult = (
   callback: (snapshot: QuerySnapshot<DocumentData, DocumentData>) => void
 ) => {
@@ -92,9 +85,4 @@ export const getErrors = () => {
 export const removeError = (id: string) => {
   const docRef = doc(db, ERROR, id);
   return deleteDoc(docRef);
-};
-
-export const addAction = (item: UDocument<UAction>) => {
-  const colRef = collection(db, ACTION);
-  return addDoc(colRef, item);
 };
